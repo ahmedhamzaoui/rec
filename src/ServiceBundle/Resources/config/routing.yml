@@ -1,0 +1,10 @@
+app_users:
+    resource: "@ServiceBundle/Resources/config/routing/users.yml"
+    prefix:   /users
+app_post:
+    resource: "@ServiceBundle/Resources/config/routing/post.yml"
+    prefix:   /posts
+app_photo:
+    resource: "@ServiceBundle/Resources/config/routing/photo.yml"
+    prefix:   /photos
+

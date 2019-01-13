@@ -1,0 +1,24 @@
+post_index:
+    path:     /
+    defaults: { _controller: "ServiceBundle:Post:index" }
+    methods:  GET
+
+post_show:
+    path:     /{idpub}/show
+    defaults: { _controller: "ServiceBundle:Post:show" }
+    methods:  GET
+
+post_new:
+    path:     /new
+    defaults: { _controller: "ServiceBundle:Post:new" }
+    methods:  [GET, POST]
+
+post_edit:
+    path:     /{idpub}/edit
+    defaults: { _controller: "ServiceBundle:Post:edit" }
+    methods:  [GET, POST]
+
+post_delete:
+    path:     /{idpub}/delete
+    defaults: { _controller: "ServiceBundle:Post:delete" }
+    methods:  [GET, POST]
