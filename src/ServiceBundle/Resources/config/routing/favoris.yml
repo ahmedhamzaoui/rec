@@ -1,0 +1,24 @@
+favoris_index:
+    path:     /
+    defaults: { _controller: "ServiceBundle:Favoris:index" }
+    methods:  [GET, POST]
+
+favoris_show:
+    path:     /{id}/show
+    defaults: { _controller: "ServiceBundle:Favoris:show" }
+    methods:  GET
+
+favoris_new:
+    path:     /new
+    defaults: { _controller: "ServiceBundle:Favoris:new" }
+    methods:  [GET, POST]
+
+favoris_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ServiceBundle:Favoris:edit" }
+    methods:  [GET, POST]
+
+favoris_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ServiceBundle:Favoris:delete" }
+    methods:  DELETE
