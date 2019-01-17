@@ -7,4 +7,9 @@ app_post:
 app_photo:
     resource: "@ServiceBundle/Resources/config/routing/photo.yml"
     prefix:   /photos
-
+app_tags:
+    resource: "@ServiceBundle/Resources/config/routing/tags.yml"
+    prefix:   /tags
+app_favoris:
+    resource: "@ServiceBundle/Resources/config/routing/favoris.yml"
+    prefix:   /favoris

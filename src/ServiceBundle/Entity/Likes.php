@@ -41,6 +41,54 @@ class Likes
      */
     private $userid;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return Post
+     */
+    public function getIdpost()
+    {
+        return $this->idpost;
+    }
+
+    /**
+     * @param Post $idpost
+     */
+    public function setIdpost($idpost)
+    {
+        $this->idpost = $idpost;
+    }
+
+    /**
+     * @return Users
+     */
+    public function getUserid()
+    {
+        return $this->userid;
+    }
+
+    /**
+     * @param Users $userid
+     */
+    public function setUserid($userid)
+    {
+        $this->userid = $userid;
+    }
+
 
 }
 

@@ -38,23 +38,14 @@ class PhotoController extends Controller
     public function newAction(Request $request)
     {
         $photo = new Photo();
-        $file=$request->files->get("photo");
-        $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
-        $original_name = $file->getClientOriginalName();
-        $file->move($this->container->getParameter("photos_directory"),$fileName);
 
-
-                $photo->setPath($fileName);
+                $photo->setPath($request->get("photoLink"));
                     $em=$this->getDoctrine()->getManager();
                     $em->persist($photo);
                     $em->flush();
-        if($photo->getPath()!=null){
-        $msg="success";
-        }else {
-            $msg="success";
-        }
+
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($msg);
+        $formatted = $serializer->normalize($photo->getId());
         return new JsonResponse($formatted);
         }
 

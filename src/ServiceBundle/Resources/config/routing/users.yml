@@ -10,7 +10,7 @@ users_show:
 users_auth:
     path:     /auth
     defaults: { _controller: "ServiceBundle:Users:auth" }
-    methods:  GET
+    methods:  [GET, POST]
 
 users_new:
     path:     /new
@@ -18,8 +18,17 @@ users_new:
     methods:  [GET, POST]
 
 users_profile:
-    path:     /{id}/profile
+    path:     /profile
     defaults: { _controller: "ServiceBundle:Users:profile" }
+    methods:  [GET, POST]
+
+users_profile_edit:
+    path:     /profileedit/{id}
+    defaults: { _controller: "ServiceBundle:Users:profileedit" }
+    methods:  [GET, POST]
+users_confirme:
+    path:     /confirme
+    defaults: { _controller: "ServiceBundle:Users:confirme" }
     methods:  [GET, POST]
 
 users_delete:

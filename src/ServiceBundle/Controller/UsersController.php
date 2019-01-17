@@ -30,13 +30,34 @@ class UsersController extends Controller
         return new JsonResponse($formatted);
     }
 
+
+    public function confirmeAction(Request $request)
+
+    {
+        $password=$request->get("password");
+        $id=$request->get("id");
+        $em=$this->getDoctrine()->getManager();
+        $userexist = $em->getRepository('ServiceBundle:Users')->findOneBy(array("id"=>$id,"password"=>$password));
+        if ($userexist!=null){
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($userexist->getid());
+        return new JsonResponse($formatted);
+        }
+        else{
+        $id=0;
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($id);
+            return new JsonResponse($formatted);
+
+        }
+    }
     /**
      * inscription
      *
      */
     public function newAction(Request $request)
     {
-        $username=$request->get("username");
+        $username=$request->get("email");
         $email=$request->get("email");
         $password=$request->get("password");
         $em=$this->getDoctrine()->getManager();
@@ -60,7 +81,8 @@ class UsersController extends Controller
             $em->flush();
 
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($user);
+
+        $formatted = $serializer->normalize($user->getId());
         return new JsonResponse($formatted);
 
     }
@@ -86,20 +108,20 @@ class UsersController extends Controller
      */
     public function authAction(Request $request)
     {
-        $username=$request->get("username");
         $email=$request->get("email");
         $password=$request->get("password");
 
         $em = $this->getDoctrine()->getManager();
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $user = $em->getRepository('ServiceBundle:Users')->findBy(array("password"=>$password,"email"=>$email));
-        } else {
-            $user = $em->getRepository('ServiceBundle:Users')->findBy(array("password"=>$password,"username"=>$username));
-        }
+       // if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $user = $em->getRepository('ServiceBundle:Users')->findOneBy(array("password"=>$password,"email"=>$email));
+        //} else {
+        //    $user = $em->getRepository('ServiceBundle:Users')->findBy(array("password"=>$password,"username"=>$email));
+        //}
 
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($user);
+
+        $formatted = $serializer->normalize($user->getId());
         return new JsonResponse($formatted);
     }
 
@@ -108,14 +130,15 @@ class UsersController extends Controller
      *
      *
      */
-    public function profileAction(Request $request,$id)
+    public function profileeditAction(Request $request,$id)
     {
 
         $username=$request->get("username");
         $email=$request->get("email");
 
         $fullname=$request->get("fullname");
-        $description=$request->get("description");
+        $desc=$request->get("description");
+
 
         $em = $this->getDoctrine()->getManager();
 
@@ -129,9 +152,10 @@ class UsersController extends Controller
         if ($fullname!=null) {
             $user->setFullname($fullname);
         }
-        if ($description!=null) {
-            $user->setDescription($description);
+        if ($desc!=null) {
+            $user->setDescription($desc);
         }
+
         $em->flush();
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($user);
@@ -140,6 +164,19 @@ class UsersController extends Controller
 
     }
 
+
+    public function profileAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository('ServiceBundle:Users')->find($request->get("id"));
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($user);
+        return new JsonResponse($formatted);
+
+
+    }
     /**
      * Deletes a user entity.
      *

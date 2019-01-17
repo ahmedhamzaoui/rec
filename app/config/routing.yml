@@ -1,6 +1,10 @@
+service_likes:
+    resource: "@ServiceBundle/Controller/LikesController.php"
+    type:     annotation
+
 service:
     resource: "@ServiceBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /s
 
 app:
     resource: '@AppBundle/Controller/'

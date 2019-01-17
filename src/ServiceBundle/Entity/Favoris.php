@@ -22,6 +22,21 @@ class Favoris
     private $id;
 
 
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="idpost", type="integer")
+     */
+    private $idpost;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="userid", type="integer")
+     */
+    private $userid;
+
     /**
      * Get id
      *
@@ -31,5 +46,38 @@ class Favoris
     {
         return $this->id;
     }
+
+    /**
+     * @return int
+     */
+    public function getIdpost()
+    {
+        return $this->idpost;
+    }
+
+    /**
+     * @param int $idpost
+     */
+    public function setIdpost($idpost)
+    {
+        $this->idpost = $idpost;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserid()
+    {
+        return $this->userid;
+    }
+
+    /**
+     * @param int $userid
+     */
+    public function setUserid($userid)
+    {
+        $this->userid = $userid;
+    }
 }
+
 

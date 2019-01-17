@@ -143,5 +143,20 @@ class PostController extends Controller
 
     }
 
+    /**
+     * http://localhost/reclamation/web/app_dev.php/posts/tag/
+     *
+     */
+    public function tagAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $posts = $em->getRepository('ServiceBundle:Tag')->findAll();
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($posts);
+        return new JsonResponse($formatted);
+    }
+
 
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Users
  *
- * @ORM\Table(name="users", indexes={@ORM\Index(name="idflowers", columns={"idflowers"}), @ORM\Index(name="idfollowing", columns={"idfollowing"}), @ORM\Index(name="idphoto", columns={"idphoto"})})
+ * @ORM\Table(name="users", indexes={@ORM\Index(name="idflowers", columns={"idflowers"}), @ORM\Index(name="idfollowing", columns={"idfollowing"})})
  * @ORM\Entity(repositoryClass="ServiceBundle\Repository\UsersRepository")
  */
 class Users
@@ -72,14 +72,11 @@ class Users
 
 
     /**
-     * @var \ServiceBundle\Entity\Photo
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="ServiceBundle\Entity\Photo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idphoto", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="path", type="string", length=512, nullable=true)
      */
-    private $idphoto;
+    private $path;
 
     /**
      * @return int
@@ -210,20 +207,21 @@ class Users
     }
 
     /**
-     * @return Photo
+     * @return string
      */
-    public function getIdphoto()
+    public function getPath()
     {
-        return $this->idphoto;
+        return $this->path;
     }
 
     /**
-     * @param Photo $idphoto
+     * @param string $path
      */
-    public function setIdphoto($idphoto)
+    public function setPath($path)
     {
-        $this->idphoto = $idphoto;
+        $this->path = $path;
     }
+
 
 
 

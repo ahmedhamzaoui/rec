@@ -111,6 +111,14 @@ class Post
      */
     private $idphoto1;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="path", type="string", length=3000, nullable=false)
+     */
+    private $path;
+
     /**
      * @return int
      */
@@ -303,6 +311,21 @@ class Post
         $this->idphoto1 = $idphoto1;
     }
 
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
 
 
 }
