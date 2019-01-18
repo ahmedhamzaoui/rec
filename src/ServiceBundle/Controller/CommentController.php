@@ -19,15 +19,43 @@ class CommentController extends Controller
      * Lists all comment entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $comments = $em->getRepository('ServiceBundle:Comment')->findAll();
 
-        return $this->render('comment/index.html.twig', array(
-            'comments' => $comments,
-        ));
+        $comments = $em->getRepository('ServiceBundle:Comment')->findBy(array("idpost"=>$request->get("idpost")));
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($comments);
+        return new JsonResponse($formatted);
+    }
+
+
+
+
+    public function nbAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+
+        $comment = $em->getRepository('ServiceBundle:Comment')->findBy(array("idpost"=>$request->get("idpost")));
+        $x=0;
+        foreach ($comment as $comm){
+            $x++;
+        }
+        if($comment!=null){
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($x);
+            return new JsonResponse($formatted);
+        }
+        else{
+            $s=0;
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($s);
+            return new JsonResponse($formatted);
+        }
+
     }
 
     /**
@@ -40,12 +68,13 @@ class CommentController extends Controller
         $userid=$request->get("userid");
         $idpost=$request->get("idpost");
         $comme=$request->get("comment");
+        $date=$request->get("createdAt");
 
         $comment = new Comment();
        $comment->setIdpost($idpost);
        $comment->setUserid($userid);
        $comment->setTextcomment($comme);
-       $comment->setCreatedAt(new \DateTime('now'));
+       $comment->setCreatedAt($date);
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
