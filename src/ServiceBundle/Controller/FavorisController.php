@@ -24,9 +24,34 @@ class FavorisController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $favoris = $em->getRepository('ServiceBundle:Favoris')->findOneBy(array("userid"=>$request->get("userid"),"idpost"=>$request->get("idpost")));
-if($favoris!=null){
+        if($favoris!=null){
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($favoris->getIdpost());
+        return new JsonResponse($formatted);
+        }
+        else{
+            $s="";
+                $serializer = new Serializer([new ObjectNormalizer()]);
+                $formatted = $serializer->normalize($s);
+                return new JsonResponse($formatted);
+            }
+
+    }
+
+    public function listAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $favoris = $em->getRepository('ServiceBundle:Favoris')->findBy(array("userid"=>$request->get("userid")));
+        if($favoris!=null){
+            $tab=array();
+
+            foreach ($favoris as $f){
+            $fav = $em->getRepository('ServiceBundle:Post')->findBy(array("idpub"=>$f->getIdpost()));
+            array_push($tab,$fav);
+            }
+            $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($tab);
         return new JsonResponse($formatted);
         }
         else{

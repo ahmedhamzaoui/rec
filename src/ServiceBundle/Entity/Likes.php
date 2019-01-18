@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Likes
  *
- * @ORM\Table(name="likes", indexes={@ORM\Index(name="userid", columns={"userid"}), @ORM\Index(name="idpost", columns={"idpost"})})
+ * @ORM\Table(name="likes")
  * @ORM\Entity
  */
 class Likes
@@ -21,23 +21,19 @@ class Likes
      */
     private $id;
 
+
+
     /**
-     * @var \ServiceBundle\Entity\Post
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="ServiceBundle\Entity\Post")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idpost", referencedColumnName="idpub")
-     * })
+     * @ORM\Column(name="idpost", type="integer")
      */
     private $idpost;
 
     /**
-     * @var \ServiceBundle\Entity\Users
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="ServiceBundle\Entity\Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="userid", type="integer")
      */
     private $userid;
 
@@ -58,7 +54,7 @@ class Likes
     }
 
     /**
-     * @return Post
+     * @return int
      */
     public function getIdpost()
     {
@@ -66,7 +62,7 @@ class Likes
     }
 
     /**
-     * @param Post $idpost
+     * @param int $idpost
      */
     public function setIdpost($idpost)
     {
@@ -74,7 +70,7 @@ class Likes
     }
 
     /**
-     * @return Users
+     * @return int
      */
     public function getUserid()
     {
@@ -82,7 +78,7 @@ class Likes
     }
 
     /**
-     * @param Users $userid
+     * @param int $userid
      */
     public function setUserid($userid)
     {

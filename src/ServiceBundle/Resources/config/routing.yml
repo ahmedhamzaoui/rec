@@ -13,3 +13,6 @@ app_tags:
 app_favoris:
     resource: "@ServiceBundle/Resources/config/routing/favoris.yml"
     prefix:   /favoris
+app_comments:
+    resource: "@ServiceBundle/Resources/config/routing/comment.yml"
+    prefix:   /comment

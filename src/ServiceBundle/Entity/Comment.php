@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Comment
  *
- * @ORM\Table(name="comment", indexes={@ORM\Index(name="userid", columns={"userid"}), @ORM\Index(name="idpost", columns={"idpost"})})
+ * @ORM\Table(name="comment")
  * @ORM\Entity
  */
 class Comment
@@ -28,32 +28,108 @@ class Comment
      */
     private $textcomment;
 
+
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="date", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
     private $createdAt;
 
+
     /**
-     * @var \ServiceBundle\Entity\Post
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="ServiceBundle\Entity\Post")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idpost", referencedColumnName="idpub")
-     * })
+     * @ORM\Column(name="idpost", type="integer")
      */
     private $idpost;
 
     /**
-     * @var \ServiceBundle\Entity\Users
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="ServiceBundle\Entity\Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="userid", type="integer")
      */
     private $userid;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextcomment()
+    {
+        return $this->textcomment;
+    }
+
+    /**
+     * @param string $textcomment
+     */
+    public function setTextcomment($textcomment)
+    {
+        $this->textcomment = $textcomment;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdpost()
+    {
+        return $this->idpost;
+    }
+
+    /**
+     * @param int $idpost
+     */
+    public function setIdpost($idpost)
+    {
+        $this->idpost = $idpost;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserid()
+    {
+        return $this->userid;
+    }
+
+    /**
+     * @param int $userid
+     */
+    public function setUserid($userid)
+    {
+        $this->userid = $userid;
+    }
 
 
 }

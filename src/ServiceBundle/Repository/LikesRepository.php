@@ -10,4 +10,5 @@ namespace ServiceBundle\Repository;
  */
 class LikesRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

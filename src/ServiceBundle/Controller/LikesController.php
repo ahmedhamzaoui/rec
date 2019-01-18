@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Constraints\Count;
 
 /**
  * Like controller.
@@ -22,17 +23,55 @@ class LikesController extends Controller
      * Lists all like entities.
      *
      * @Route("/", name="likes_index")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $likes = $em->getRepository('ServiceBundle:Likes')->findAll();
+        $likes = $em->getRepository('ServiceBundle:Likes')->findOneBy(array("userid"=>$request->get("userid"),"idpost"=>$request->get("idpost")));
+        if($likes!=null){
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($likes->getIdpost());
+            return new JsonResponse($formatted);
+        }
+        else{
+            $s="";
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($s);
+            return new JsonResponse($formatted);
+        }
 
-        return $this->render('likes/index.html.twig', array(
-            'likes' => $likes,
-        ));
+    }
+
+    /**
+     * Lists all like entities.
+     *
+     * @Route("/nb", name="likes_nb")
+     * @Method({"GET", "POST"})
+     */
+    public function nbAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+
+        $likes = $em->getRepository('ServiceBundle:Likes')->findBy(array("idpost"=>$request->get("idpost")));
+        $x=0;
+        foreach ($likes as $like){
+            $x++;
+        }
+        if($likes!=null){
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($x);
+            return new JsonResponse($formatted);
+        }
+        else{
+            $s=0;
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($s);
+            return new JsonResponse($formatted);
+        }
+
     }
 
     /**
@@ -42,26 +81,27 @@ class LikesController extends Controller
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
-    {  $iduser = $request->get("iduser");
-         $idpost = $request->get("idpost");
+    {          $userid=$request->get("userid");
+        $idpost=$request->get("idpost");
+
         $em = $this->getDoctrine()->getManager();
+        $likes=$em->getRepository("ServiceBundle:Likes")->findOneBy(array("idpost"=>$idpost,"userid"=>$userid));
 
-        $post =$em->getRepository("ServiceBundle:Post")->find($idpost);
-            $user =$em->getRepository("ServiceBundle:Users")->find($iduser);
-        $like=$em->getRepository("ServiceBundle:Likes")->findOneBy(array("idpost"=>$post,"userid"=>$user));
-            if($like==null) {
-                $like = new Likes();
-                $like->setIdpost($post);
-                $like->setUserid($user);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($like);
-                $em->flush();
 
-            }
+        if ($likes==null) {
+            $likes = new Likes();
+            $likes->setUserid($userid);
+            $likes->setIdpost($idpost);
+            $em->persist($likes);
+            $em->flush();
+        }else if ($likes!=null){
+            $em->remove($likes);
+            $em->flush();
 
-        $msg = array("aime");
+        }
+
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($msg);
+        $formatted = $serializer->normalize($likes->getId());
         return new JsonResponse($formatted);
 
     }
